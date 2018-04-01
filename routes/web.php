@@ -14,3 +14,19 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/faq', function () {
+    return view('noauth.faq');
+})->name('faq');
+
+Route::get('/testimoni', function () {
+    return view('noauth.testimoni');
+})->name('testi');
+
+Route::get('/kontakkami', function () {
+    return view('noauth.kontakkami');
+})->name('kontak');
