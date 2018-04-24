@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\TukangAuth;
 
-use App\User;
+use App\Tukang;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 
-class RegisterController extends Controller
+class TukangRegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -23,12 +24,17 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    public function showRegistrationForm()
+    {
+        return view('tukang.auth.register');
+    }
+
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/tukang';
 
     /**
      * Create a new controller instance.
@@ -65,12 +71,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Tukang::create([
             'nama' => $data['name'],
             'alamat' => $data['alamat'],
             'email' => $data['email'],
             'no_telp' => $data['telephone'],
+            'foto' => "dddddd",
+            'keahlian_id' => "1",
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+
+    protected function guard()
+    {
+        return Auth::guard('tukang');
     }
 }

@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('no_telp');
             $table->string('password');
             $table->string('foto');
+            $table->boolean('confirmed')->default(0);
+            $table->string('confirmation_code')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

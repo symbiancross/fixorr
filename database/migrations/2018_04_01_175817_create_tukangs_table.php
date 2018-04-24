@@ -23,6 +23,8 @@ class CreateTukangsTable extends Migration
             $table->string('foto');
             $table->integer('keahlian_id')->unsigned();
             $table->foreign('keahlian_id')->references('keahlian_id')->on('keahlians')->onDelete('cascade');
+            $table->boolean('confirmed')->default(0);
+            $table->string('confirmation_code')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
