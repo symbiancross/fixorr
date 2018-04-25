@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    Hello {{Auth::guard('tukang')->user()->nama}}
                 </div>
             </div>
         </div>

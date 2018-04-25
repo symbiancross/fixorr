@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\TukangAuth;
 
+use App\Tukang;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -21,10 +22,15 @@ class TukangLoginController extends Controller
 
     use AuthenticatesUsers;
 
+    public function __construct()
+    {
+        $this->middleware('guest:tukang');
+    }
+
     public function showLoginForm()
     {
         return view('tukang.auth.login');
-    }
+    }    
 
     /**
      * Where to redirect users after login.
@@ -38,10 +44,8 @@ class TukangLoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
+
+    
 
     protected function guard()
     {

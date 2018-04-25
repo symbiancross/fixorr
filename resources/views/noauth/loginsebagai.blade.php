@@ -6,10 +6,10 @@
 
             <div class="content">
             	<div class="title m-b-md">
-                    Daftar Sebagai
+                    Masuk Sebagai
                 </div>
                 <div class="title m-b-md">
-                    <a href="{{ route('register') }}">{{ __('Pengguna') }}</a> atau <a href="{{ route('tukang.register') }}">{{ __('Tukang') }}
+                    <a href="{{ route('login') }}">{{ __('Pengguna') }}</a> atau <a href="{{ route('tukang.login') }}">{{ __('Tukang') }}
                 </div>
 
                 
