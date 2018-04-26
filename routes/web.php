@@ -46,7 +46,7 @@ Route::group(['middleware' => ['web']], function () {
     //Login Routes...
     Route::get('/tukang/login','TukangAuth\TukangLoginController@showLoginForm')->name('tukang.login');
     Route::post('/tukang/login','TukangAuth\TukangLoginController@login')->name('tukang.login.submit');
-    Route::get('/tukang/logout','TukangAuth\TukangLoginController@logout')->name('tukang.logout');
+    Route::post('/tukang/logout','TukangAuth\TukangLoginController@logout')->name('tukang.logout');
 
     // Registration Routes...
     Route::get('tukang/register', 'TukangAuth\TukangRegisterController@showRegistrationForm')->name('tukang.register');

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\TukangAuth;
 use App\Tukang;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class TukangLoginController extends Controller
 {
@@ -24,7 +24,7 @@ class TukangLoginController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest:tukang');
+        $this->middleware('guest:tukang')->except('logout');;
     }
 
     public function showLoginForm()
@@ -45,7 +45,12 @@ class TukangLoginController extends Controller
      * @return void
      */
 
-    
+    public function logout()
+    {
+        Auth::guard('tukang')->logout();
+
+        return redirect('/');
+    }
 
     protected function guard()
     {
