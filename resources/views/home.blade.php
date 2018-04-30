@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    <a href="{{ route('user.edit') }}">{{ __('Edit profil pengguna') }}</a>
                 </div>
             </div>
         </div>
