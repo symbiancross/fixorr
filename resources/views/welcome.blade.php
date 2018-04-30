@@ -18,9 +18,9 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Tukang Listrik</a>
-                    <a href="https://laracasts.com">Tukang Ledeng</a>
-                    <a href="https://laravel-news.com">Tukang Cat</a>
+                    <a href="{{ route('pesan.tukang', 1) }}">Tukang Listrik</a>
+                    <a href="{{ route('pesan.tukang', 2) }}">Tukang Ledeng</a>
+                    <a href="{{ route('pesan.tukang', 3) }}">Tukang Cat</a>
                     <a href="https://forge.laravel.com">Lain-lain</a>
                 </div>
             </div>
