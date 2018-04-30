@@ -4,6 +4,9 @@ namespace App\Http\Controllers\TukangAuth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Auth;
+use Password;
+use Illuminate\Http\Request;
 
 class TukangResetPasswordController extends Controller
 {
@@ -34,12 +37,23 @@ class TukangResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest:tukang');
     }
-
     
     protected function guard()
     {
         return Auth::guard('tukang');
+    }
+    
+    protected function broker()
+    {
+        return Password::broker('tukangs');
+    }   
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('tukang.auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
     }
 }

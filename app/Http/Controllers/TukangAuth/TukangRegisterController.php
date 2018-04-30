@@ -43,7 +43,7 @@ class TukangRegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest:tukang');
     }
 
     /**
@@ -81,7 +81,6 @@ class TukangRegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-
 
     protected function guard()
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\TukangAuth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Password;
 
 class TukangForgotPasswordController extends Controller
 {
@@ -28,5 +29,15 @@ class TukangForgotPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    protected function broker()
+    {
+        return Password::broker('tukangs');
+    }
+
+    public function showLinkRequestForm()
+    {
+        return view('tukang.auth.passwords.email');
     }
 }
