@@ -16,6 +16,7 @@
 
                     You are logged in!
                     Hello {{Auth::guard('tukang')->user()->nama}}
+                    <a href="{{ route('daftar.pesanan') }}">{{ __('Daftar Pesanan') }}</a>
                 </div>
             </div>
         </div>

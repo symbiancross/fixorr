@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -39,6 +39,21 @@ Route::get('/kontakkami', function () {
     return view('noauth.kontakkami');
 })->name('kontak');
 
+Auth::routes();
+
+ 
+
+//edit user
+Route::get('edit','UserController@showEditUserForm')->name('user.edit');
+Route::patch('{user}/update','UserController@update')->name('user.update');
+
+//pesan tukang
+Route::get('{id}/pesan', 'PesanController@showKonfirmasiForm')->name('pesan.tukang');
+Route::post('pesan', 'PesanController@pesan')->name('pesan.tukang.submit');
+
+//terima pesanan
+Route::get('/tukang/pesanan/list', 'TerimaPesananController@showDaftarPesanan')->name('daftar.pesanan');
+Route::post('/tukang/{id}/pesanan', 'TerimaPesananController@terimaPesanan')->name('terima.pesanan');
 
 
 //tukang
@@ -48,11 +63,17 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/tukang/login','TukangAuth\TukangLoginController@login')->name('tukang.login.submit');
     Route::post('/tukang/logout','TukangAuth\TukangLoginController@logout')->name('tukang.logout');
 
-    // Registration Routes...
+    //Registration Routes...
     Route::get('tukang/register', 'TukangAuth\TukangRegisterController@showRegistrationForm')->name('tukang.register');
     Route::post('tukang/register', 'TukangAuth\TukangRegisterController@register')->name('tukang.register.submit');;
 
+    //Password Reset Routes...
+    Route::post('tukang/password/email', 'TukangAuth\TukangForgotPasswordController@sendResetLinkEmail')->name('tukang.password.email');
+    Route::get('tukang/password/reset', 'TukangAuth\TukangForgotPasswordController@showLinkRequestForm')->name('tukang.password.request');
+    Route::post('tukang/password/reset', 'TukangAuth\TukangResetPasswordController@reset');
+    Route::get('tukang/password/reset/{token}', 'TukangAuth\TukangResetPasswordController@showResetForm')->name('tukang.password.reset');
+
+    //main page tukang
     Route::get('/tukang', 'TukangController@index')->name('tukang.home');
 
-});  
-
+}); 
