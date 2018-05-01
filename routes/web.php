@@ -52,9 +52,13 @@ Route::get('{id}/pesan', 'PesanController@showKonfirmasiForm')->name('pesan.tuka
 Route::post('pesan', 'PesanController@pesan')->name('pesan.tukang.submit');
 
 //terima pesanan
-Route::get('/tukang/pesanan/list', 'TerimaPesananController@showDaftarPesanan')->name('daftar.pesanan');
-Route::post('/tukang/{id}/pesanan', 'TerimaPesananController@terimaPesanan')->name('terima.pesanan');
+Route::get('/tukang/pesanan', 'TerimaPesananController@showDaftarPesanan')->name('daftar.pesanan');
+Route::post('/tukang/{id}/status', 'TerimaPesananController@status')->name('status');
 
+//pembayaran
+Route::get('/tukang/biaya', 'TerimaPesananController@showTambahPembayaran')->name('biaya');
+Route::post('/tukang/biaya/tambah', 'TerimaPesananController@tambahKekurangan')->name('tambah.kekurangan');
+Route::delete('/tukang/biaya/{id}/hapus', 'TerimaPesananController@hapusKekurangan')->name('hapus.kekurangan');
 
 //tukang
 Route::group(['middleware' => ['web']], function () {
