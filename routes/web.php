@@ -51,6 +51,9 @@ Route::patch('{user}/update','UserController@update')->name('user.update');
 Route::get('{id}/pesan', 'PesanController@showKonfirmasiForm')->name('pesan.tukang');
 Route::post('pesan', 'PesanController@pesan')->name('pesan.tukang.submit');
 
+//daftar pesanan
+Route::get('daftar/pesananan', 'PesanController@showListPesanan')->name('list.pesanan');
+
 //terima pesanan
 Route::get('/tukang/pesanan', 'TerimaPesananController@showDaftarPesanan')->name('daftar.pesanan');
 Route::post('/tukang/{id}/status', 'TerimaPesananController@status')->name('status');

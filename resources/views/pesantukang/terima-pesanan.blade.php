@@ -40,10 +40,10 @@
                 </thead>
                 <tbody>
                     @foreach ($pesans as $pesan)
-                        @if ($pesan->keahlian == Auth::guard('tukang')->user()->keahlian_id && $pesan->isComplete == 0)
+                        @if ($pesan->keahlian_id == Auth::guard('tukang')->user()->keahlian_id && $pesan->isComplete == 0)
                             <tr>
                                 <td class="table-text"><div>{{ $pesan->user->nama }}</div></td>
-                                <td class="table-text"><div>{{ $pesan->keahlian }}</div></td>
+                                <td class="table-text"><div>{{ $pesan->keahlian_id }}</div></td>
 
                                 <!-- Task Delete Button -->
                                 <td>

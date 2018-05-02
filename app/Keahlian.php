@@ -11,5 +11,9 @@ class Keahlian extends Model
     protected $fillable = [
         'nama_keahlian', 'biaya',
     ];
+
+    public function pesan(){
+        return $this->hasMany('App\Pesan' ,'pesan_id');
+    }
 }
 

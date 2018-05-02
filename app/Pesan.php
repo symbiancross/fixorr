@@ -11,6 +11,11 @@ class Pesan extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
+    public function keahlian()
+	{
+        return $this->belongsTo('App\Keahlian', 'keahlian_id');
+    }
+
     protected $primaryKey = 'pesan_id';
 
     protected $fillable = [
