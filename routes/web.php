@@ -52,7 +52,13 @@ Route::get('{id}/pesan', 'PesanController@showKonfirmasiForm')->name('pesan.tuka
 Route::post('pesan', 'PesanController@pesan')->name('pesan.tukang.submit');
 
 //daftar pesanan
-Route::get('daftar/pesananan', 'PesanController@showListPesanan')->name('list.pesanan');
+Route::get('daftar/pesanan/aktif', 'PesanController@showListPesananAktif')->name('list.pesanan.aktif');
+Route::get('daftar/pesanan/aktif/{id}/detail', 'PesanController@showDetailPesananAktif')->name('list.pesanan.aktif.detail');
+Route::get('daftar/pesanan/selesai', 'PesanController@showListPesananSelesai')->name('list.pesanan.selesai');
+Route::get('daftar/pesanan/selesai/{id}/detail', 'PesanController@showDetailPesananSelesai')->name('list.pesanan.selesai.detail');
+
+//Rating
+Route::post('daftar/pesanan/selesai/{id}/rate', 'PesanController@rate')->name('rate');
 
 //terima pesanan
 Route::get('/tukang/pesanan', 'TerimaPesananController@showDaftarPesanan')->name('daftar.pesanan');

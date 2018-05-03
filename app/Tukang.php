@@ -10,6 +10,10 @@ class Tukang extends Authenticatable
 {
     use Notifiable;
 
+    public function pesan(){
+        return $this->hasMany('App\Pesan' ,'pesan_id');
+    }
+
     protected $guard = 'tukang';
 
     protected $primaryKey = 'tukang_id';

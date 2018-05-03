@@ -15,6 +15,7 @@
                             <thead>
                                 <th>Keahlian</th>
                                 <th>Nama</th>
+                                <th>Tanggal Pemesanan</th>
                                 <th>&nbsp;</th>
                             </thead>
                             <tbody>
@@ -25,14 +26,13 @@
                                             <td class="table-text"><div>sedang mencari tukang</div></td>                                      
                                         @else                                        
                                             <td class="table-text"><div>{{ $pesanan->nama }}</div></td>                                      
-                                        @endif                                        
-                                        <!-- Task Delete Button -->
+                                        @endif 
+                                        <td class="table-text"><div>{{ $pesanan->created_at }}</div></td>                       
                                         <td>
-                                            <form action="" method="POST">
-                                                @method('DELETE')
+                                            <form action="{{ route('list.pesanan.aktif.detail', $pesanan->pesan_id) }}" method="GET">
                                                 @csrf
 
-                                                <button type="submit" class="btn btn-danger">
+                                                <button type="submit" class="btn btn-success">
                                                     <i class="fa fa-btn fa-trash"></i>Detil Pesanan
                                                 </button>
                                             </form>

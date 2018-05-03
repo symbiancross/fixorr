@@ -42,6 +42,7 @@ class TerimaPesananController extends Controller
         $pesan = Pesan::findOrFail($id);
         if($pesan->isComplete==0)
         {
+            $pesan->tukang_id = Auth::user()->tukang_id;
             $pesan->isComplete = 1;
             $pesan->save();
             return redirect()->route('daftar.pesanan');
@@ -64,17 +65,23 @@ class TerimaPesananController extends Controller
     {
         $pesan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->where('isComplete', '=', 2)->get();
         $kekurangans = new Pekerjaan;
+        $pesan_id = 0;
         $cek_pesanan = 0;
         if(count($pesan)==1)
         {
             $cek_pesanan = 1;            
             $pesan_id = $pesan[0]->pesan_id;
-            $kekurangans = DB::table('pekerjaans')->where('tukang_id', '=', Auth::user()->tukang_id)->where('pesan_id', '=', $pesan_id)->get();
-            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan);
+            
+            $kekurangans = DB::table('pekerjaans')
+            ->where('tukang_id', '=', Auth::user()->tukang_id)
+            ->where('pesan_id', '=', $pesan_id)
+            ->get();
+            
+            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan)->with('pesan_id', $pesan_id);
         }
         else
         {
-            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan);
+            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan)->with('pesan_id', $pesan_id);
         }
         
     }

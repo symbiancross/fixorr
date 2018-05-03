@@ -19,9 +19,12 @@ class CreateRatesTable extends Migration
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->integer('tukang_id')->unsigned();
             $table->foreign('tukang_id')->references('tukang_id')->on('tukangs')->onDelete('cascade');
-            $table->tinyInteger('rate_tukang');
-            $table->tinyInteger('rate_pengguna');
-            $table->string('testimoni');
+            $table->integer('pesan_id')->unsigned();
+            $table->foreign('pesan_id')->references('pesan_id')->on('pesans')->onDelete('cascade');
+            $table->string('foto_testimoni')->nullable();
+            $table->tinyInteger('rate_tukang')->default(0);
+            $table->tinyInteger('rate_pengguna')->default(0);
+            $table->string('testimoni')->nullable();
             $table->timestamps();
         });
     }
