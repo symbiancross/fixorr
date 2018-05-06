@@ -21,7 +21,7 @@
                     <a href="{{ route('pesan.tukang', 1) }}">Tukang Listrik</a>
                     <a href="{{ route('pesan.tukang', 2) }}">Tukang Ledeng</a>
                     <a href="{{ route('pesan.tukang', 3) }}">Tukang Cat</a>
-                    <a href="https://forge.laravel.com">Lain-lain</a>
+                    <a href="{{ route('cari.keahlian') }}">Lain-lain</a>
                 </div>
             </div>
         </div>

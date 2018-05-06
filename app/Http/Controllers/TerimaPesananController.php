@@ -88,7 +88,7 @@ class TerimaPesananController extends Controller
 
     public function tambahKekurangan(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = $request->validate([
             'kekurangan' => 'required|max:255',
             'harga' => 'required|numeric|between:0.001,999999999',
         ]);

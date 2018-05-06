@@ -19,13 +19,13 @@
                             <label for="kekurangan" class="col-sm-3 control-label">Nama Kekurangan</label>
 
                             <div class="col-sm-6">
-                                <input type="text" name="kekurangan" id="kekurangan" class="form-control">
+                                <input type="text" name="kekurangan" id="kekurangan" class="form-control{{ $errors->has('kekurangan') ? ' is-invalid' : '' }}" value="{{ old('kekurangan') }}" required autofocus>
                             </div>
 
                             <label for="harga" class="col-sm-3 control-label">Harga</label>
 
                             <div class="col-sm-6">
-                                <input type="number" name="harga" id="harga" class="form-control">
+                                <input type="number" name="harga" id="harga" class="form-control{{ $errors->has('harga') ? ' is-invalid' : '' }}" value="{{ old('harga') }}" required autofocus>
                             </div>
                         </div>
 

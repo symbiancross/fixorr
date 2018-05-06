@@ -39,9 +39,7 @@ Route::get('/kontakkami', function () {
     return view('noauth.kontakkami');
 })->name('kontak');
 
-Auth::routes();
-
- 
+Auth::routes(); 
 
 //edit user
 Route::get('edit','UserController@showEditUserForm')->name('user.edit');
@@ -50,6 +48,10 @@ Route::patch('{user}/update','UserController@update')->name('user.update');
 //pesan tukang
 Route::get('{id}/pesan', 'PesanController@showKonfirmasiForm')->name('pesan.tukang');
 Route::post('pesan', 'PesanController@pesan')->name('pesan.tukang.submit');
+
+//cari keahlian
+Route::get('/carikeahlian', 'KeahlianController@showSearchKeahlianForm')->name('cari.keahlian');
+Route::get('/carikeahlian/get', 'KeahlianController@cariKeahlian')->name('cari.keahlian.get');
 
 //daftar pesanan
 Route::get('daftar/pesanan/aktif', 'PesanController@showListPesananAktif')->name('list.pesanan.aktif');

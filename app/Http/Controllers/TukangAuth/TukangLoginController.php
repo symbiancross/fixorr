@@ -6,6 +6,7 @@ use App\Tukang;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use Illuminate\Http\Request;
 
 class TukangLoginController extends Controller
 {
@@ -44,6 +45,16 @@ class TukangLoginController extends Controller
      *
      * @return void
      */
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+                ?: redirect()->intended('/tukang');
+    }
 
     public function logout()
     {
