@@ -10,10 +10,6 @@ class Tukang extends Authenticatable
 {
     use Notifiable;
 
-    public function pesan(){
-        return $this->hasMany('App\Pesan' ,'pesan_id');
-    }
-
     protected $guard = 'tukang';
 
     protected $primaryKey = 'tukang_id';
@@ -23,7 +19,7 @@ class Tukang extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nama', 'alamat', 'email', 'no_telp', 'password', 'foto', 'keahlian_id',
+        'nama', 'alamat', 'email', 'no_telp', 'password', 'foto', 'keahlian_id', 'verified'
     ];
 
     /**
@@ -38,5 +34,24 @@ class Tukang extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new TukangResetPasswordNotification($token));
+    }
+
+    public function pesan(){
+        return $this->hasMany('App\Pesan' ,'pesan_id');
+    }
+
+    public function verificationToken()
+    {
+        return $this->hasOne(VerificationTokenTukang::class, 'tukang_id', 'tukang_id');
+    }
+
+    public function hasVerifiedEmail()
+    {
+        return $this->verified;
+    }
+    
+    public static function byEmail($email)
+    {
+        return static::where('email', $email);
     }
 }

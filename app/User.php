@@ -10,10 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    public function pesan(){
-        return $this->hasMany('App\Pesan' ,'pesan_id');
-    }
-
     protected $primaryKey = 'user_id';
     /**
      * The attributes that are mass assignable.
@@ -21,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nama', 'alamat', 'email', 'no_telp', 'password', 'foto',
+        'nama', 'alamat', 'email', 'no_telp', 'password', 'foto', 'verified'
     ];
 
     /**
@@ -38,5 +34,21 @@ class User extends Authenticatable
         $this->notify(new UserResetPasswordNotification($token));
     }
 
-    
+    public function pesan(){
+        return $this->hasMany('App\Pesan' ,'pesan_id');
+    }
+
+    public function verificationToken()
+    {
+        return $this->hasOne(VerificationTokenUser::class, 'user_id', 'user_id');
+    }
+
+    public function hasVerifiedEmail()
+    {
+        return $this->verified;
+    }
+    public static function byEmail($email)
+    {
+        return static::where('email', $email);
+    }
 }

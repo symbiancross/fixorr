@@ -53,7 +53,17 @@ class TukangLoginController extends Controller
         $this->clearLoginAttempts($request);
 
         return $this->authenticated($request, $this->guard()->user())
-                ?: redirect()->intended('/tukang');
+                ?: redirect('/tukang');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if(!$user->hasVerifiedEmail()) {
+            $this->guard()->logout();
+     
+            return redirect('/tukang/login')
+                ->with('verify', 'Please activate your account. <a href="' . route('tukang.auth.verify.resend') . '?email=' . $user->email .'">Resend?</a>');
+        }
     }
 
     public function logout()

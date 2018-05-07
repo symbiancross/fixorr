@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use Illuminate\Http\Request;
+use Auth;
+
 class RegisterController extends Controller
 {
     /*
@@ -71,6 +74,14 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'no_telp' => $data['telephone'],
             'password' => Hash::make($data['password']),
+            'verified' => false
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $this->guard()->logout();
+     
+        return redirect('/login')->with('success', 'Please verify your email');
     }
 }

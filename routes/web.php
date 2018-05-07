@@ -15,7 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//verify user
+Route::get('/verify/token/{token}', 'Auth\VerificationUserController@verify')->name('auth.verify');
+Route::get('/verify/resend', 'Auth\VerificationUserController@resend')->name('auth.verify.resend');
 
+//verify tukang
+Route::get('/tukang/verify/token/{token}', 'TukangAuth\VerificationTukangController@verify')->name('tukang.auth.verify');
+Route::get('/tukang/verify/resend', 'TukangAuth\VerificationTukangController@resend')->name('tukang.auth.verify.resend');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

@@ -56,4 +56,14 @@ class TukangResetPasswordController extends Controller
             ['token' => $token, 'email' => $request->email]
         );
     }
+
+    protected function sendResetResponse($response)
+    {
+        if(!$this->guard()->user()->hasVerifiedEmail()) {
+            $this->guard()->logout();
+            return redirect('/tukang/login')->with('status', 'Password changed successfully. Please verify your email');
+        }
+        return redirect($this->redirectPath())
+                            ->with('status', trans($response));
+    }
 }

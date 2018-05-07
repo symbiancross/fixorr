@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Http\Request;
+use Auth;
 
 class TukangRegisterController extends Controller
 {
@@ -79,7 +81,15 @@ class TukangRegisterController extends Controller
             'foto' => "dddddd",
             'keahlian_id' => "1",
             'password' => Hash::make($data['password']),
+            'verified' => false
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $this->guard()->logout();
+     
+        return redirect('/tukang/login')->with('success', 'Please verify your email');
     }
 
     protected function guard()

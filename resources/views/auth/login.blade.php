@@ -6,6 +6,27 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login Pengguna') }}</div>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {!! session('success') !!}
+                    </div>
+                @elseif (session('verify'))
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {!! session('verify') !!}
+                    </div>
+                @elseif (session('emailVerifivationSuccess'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {!! session('emailVerifivationSuccess') !!}
+                    </div>
+                @elseif (session('status'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {!! session('status') !!}
+                    </div>    
+                @endif
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
