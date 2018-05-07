@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\TukangAuth;
 
 use App\Tukang;
+use App\Keahlian;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -28,7 +30,9 @@ class TukangRegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('tukang.auth.register');
+        $keahlians = Keahlian::all();
+
+        return view('tukang.auth.register')->with('keahlians', $keahlians);
     }
 
     /**
@@ -59,9 +63,10 @@ class TukangRegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:tukangs',
             'telephone' => 'required|string|min:6',
             'password' => 'required|string|min:6|confirmed',
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:500|dimensions:min_width=100,min_height=100,max_width=200,max_height=200',
         ]);
     }
 
@@ -71,15 +76,61 @@ class TukangRegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        if($request->keahlian==0 && $request->keahlian_baru==NULL)
+        {
+            $keahlians = Keahlian::all();
+
+            return redirect('/tukang/register')->with('status', 'tolong isi keahlian baru')->with('keahlians', $keahlians);
+        }
+
+        if($request->keahlian==0 && !$request->keahlian_baru==NULL)
+        {
+            $keahlians = Keahlian::where('nama_keahlian', '=', $request->keahlian_baru)->get();
+            if(count($keahlians)>0)
+            {
+                $keahlians = Keahlian::all();
+
+                return redirect('/tukang/register')->with('status', 'sudah ada keahlian yang sama, silahkan memilih dari daftar yang ada')->with('keahlians', $keahlians);
+            }
+        }
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    }
+
     protected function create(array $data)
     {
+        $file = $data['foto'];
+        $fileName = $file->getClientOriginalName();
+        $data['foto']->move("image/", $fileName);
+        $keahliantukang = $data['keahlian'];
+
+        if($data['keahlian']==0)
+        {
+            $keahlian = new Keahlian;
+            $keahlian->nama_keahlian = $data['keahlian_baru'];
+            $keahlian->save(); 
+            
+            $keahlian = Keahlian::where('nama_keahlian', '=', $data['keahlian_baru'])->get();
+            $keahliantukang = $keahlian[0]->keahlian_id; 
+        }
+
         return Tukang::create([
             'nama' => $data['name'],
             'alamat' => $data['alamat'],
             'email' => $data['email'],
             'no_telp' => $data['telephone'],
-            'foto' => "dddddd",
-            'keahlian_id' => "1",
+            'foto' => $fileName,
+            'keahlian_id' =>  $keahliantukang,
             'password' => Hash::make($data['password']),
             'verified' => false
         ]);

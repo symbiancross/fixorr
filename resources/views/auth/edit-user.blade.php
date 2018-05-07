@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Daftar Sebagai Penguna') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.update', $user) }}">
+                    <form method="POST" action="{{ route('user.update', $user) }}" enctype="multipart/form-data">
                         @csrf
                         {{ method_field('patch') }}
 
@@ -65,6 +65,24 @@
                                         <strong>{{ $errors->first('telephone') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('foto') ? ' has-error' : '' }} row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Foto') }}</label>
+                            
+                            <div class="col-md-6">
+                            @if($user->foto==NULL)
+                            <img src="http://placehold.it/100x100" id="showgambar" style="max-width:200px;max-height:200px;float:left;" class="form-control">
+                            @else
+                            <img src="{{ asset('image/'.$user->foto)  }}" id="showgambar" style="max-width:200px;max-height:200px;float:left;" class="form-control">
+                            @endif
+                            <input type="file" id="inputgambar" name="foto" class="form-control">
+                            @if ($errors->has('foto'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('foto') }}</strong>
+                                </span>
+                            @endif
                             </div>
                         </div>
 

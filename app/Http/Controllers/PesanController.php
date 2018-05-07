@@ -192,6 +192,15 @@ class PesanController extends Controller
                 $request->rating = 0;
             }
 
+            if(!$request->foto==NULL)
+            {
+                $file = $request->file('foto');
+                $fileName = $file->getClientOriginalName();
+                $request->file('foto')->move("image/", $fileName);
+                $rate->foto_testimoni = $fileName;
+            }
+
+            $rate->testimoni = $request->testimoni;
             $rate->rate_tukang = $request->rating;
             $rate->save();
 
@@ -206,7 +215,16 @@ class PesanController extends Controller
             {
                 $request->rating = 0;
             }
+
+            if(!$request->foto==NULL)
+            {
+                $file = $request->file('foto');
+                $fileName = $file->getClientOriginalName();
+                $request->file('foto')->move("image/", $fileName);
+                $rate->foto_testimoni = $fileName;
+            }
             
+            $rate->testimoni = $request->testimoni;
             $rate->rate_tukang = $request->rating;
             $rate->save();
         }
