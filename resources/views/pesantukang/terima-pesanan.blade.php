@@ -5,6 +5,11 @@
     @if($cek_pesanan == 1)
         @if ($pesanan[0]->isComplete == 1 || $pesanan[0]->isComplete == 2)
             <center>
+                @if($detail_user->foto==NULL)
+                <center><img src="http://placehold.it/100x100" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
+                @else
+                    <center><img src="{{ asset('image/'.$detail_user->foto)  }}" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
+                @endif
                 {{ $detail_user->nama }}<br>
                 {{ $detail_user->alamat }}<br>
                 {{ $detail_user->no_telp }}

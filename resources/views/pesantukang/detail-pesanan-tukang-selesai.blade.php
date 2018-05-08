@@ -3,6 +3,10 @@
 @section('content')
 
 <center>
+    @if($detail_pesanan[0]->foto==NULL)
+        <center><img src="http://placehold.it/100x100" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
+    @else
+        <center><img src="{{ asset('image/'.$detail_pesanan[0]->foto)  }}" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
     {{ $detail_pesanan[0]->nama }}<br>
     
 </center> 

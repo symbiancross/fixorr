@@ -125,7 +125,8 @@ class TerimaPesananController extends Controller
                 'pesans.isComplete',
                 'pesans.keahlian_id',
                 'pesans.created_at',
-                'users.nama'
+                'users.nama',
+                'users.foto'
             )
             ->join(
                 'users',
