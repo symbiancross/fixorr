@@ -95,6 +95,7 @@ class PesanController extends Controller
             ->select(
                 'tukangs.nama',
                 'tukangs.no_telp',
+                'tukangs.foto',
                 'keahlians.nama_keahlian',
                 'keahlians.biaya'
             )
@@ -159,6 +160,7 @@ class PesanController extends Controller
             ->select(
                 'pesans.pesan_id',
                 'tukangs.tukang_id',
+                'tukangs.foto',
                 'tukangs.nama',
                 'tukangs.no_telp',
                 'keahlians.nama_keahlian',

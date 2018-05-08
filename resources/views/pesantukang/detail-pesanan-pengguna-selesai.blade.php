@@ -3,15 +3,12 @@
 @section('content')
 
 <center>
+    <center><img src="{{ asset('image/'.$detail_pesanan[0]->foto)  }}" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
     {{ $detail_pesanan[0]->nama }}<br>
     {{ $detail_pesanan[0]->no_telp }}<br>
                 
            
-    @if($pesanan->isComplete==1)
-    status: dalam perjalanan<br>
-    @elseif($pesanan->isComplete==2)
-    status: sudah sampai<br>
-    @endif
+    
     Total : {{ $total }}
 </center> 
 

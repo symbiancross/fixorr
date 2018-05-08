@@ -28,7 +28,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="@if(Auth::guard('tukang')->check()){{ url('/tukang') }} @else {{ url('/')  }} @endif">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,13 +49,12 @@
                         <li><a class="nav-link" href="{{ route('kontak') }}">{{ __('Kontak Kami') }}</a></li>
 
                         <!-- Authentication Links -->
-                        @guest
-                            <li><a class="nav-link" href="{{ route('log.as') }}">{{ __('Masuk') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('reg.as') }}">{{ __('Daftar') }}</a></li>
-                        @else
+                        
+                        
+                        @if(Auth::guard('web')->check())
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->nama }} <span class="caret"></span>
+                                    {{ Auth::guard('web')->user()->nama }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -65,12 +64,33 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ 'App\Tukang' == Auth::getProvider()->getModel() ? route('tukang.logout') : route('logout') }}" method="POST" style="display: none;">﻿
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">﻿
                                         @csrf
                                     </form>
                                 </div>
                             </li>
-                        @endguest
+                        @elseif(Auth::guard('tukang')->check())
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::guard('tukang')->user()->nama }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('tukang.logout') }}" method="POST" style="display: none;">﻿
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>    
+                        @else
+                            <li><a class="nav-link" href="{{ route('log.as') }}">{{ __('Masuk') }}</a></li>
+                            <li><a class="nav-link" href="{{ route('reg.as') }}">{{ __('Daftar') }}</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
