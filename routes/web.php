@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//contact admin
+Route::get('/kontakkami', 'ContactController@show')->name('kontak');
+Route::post('/contact',  'ContactController@mailToAdmin')->name('kontak.submit'); 
+
 //verify user
 Route::get('/verify/token/{token}', 'Auth\VerificationUserController@verify')->name('auth.verify');
 Route::get('/verify/resend', 'Auth\VerificationUserController@resend')->name('auth.verify.resend');
@@ -40,10 +44,6 @@ Route::get('/login-choose', function () {
 Route::get('/testimoni', function () {
     return view('noauth.testimoni');
 })->name('testi');
-
-Route::get('/kontakkami', function () {
-    return view('noauth.kontakkami');
-})->name('kontak');
 
 Auth::routes(); 
 
@@ -71,6 +71,8 @@ Route::post('daftar/pesanan/selesai/{id}/rate', 'PesanController@rate')->name('r
 //terima pesanan
 Route::get('/tukang/pesanan', 'TerimaPesananController@showDaftarPesanan')->name('daftar.pesanan');
 Route::post('/tukang/{id}/status', 'TerimaPesananController@status')->name('status');
+Route::get('/tukang/daftar/pesanan/selesai', 'TerimaPesananController@showDaftarPesananSelesai')->name('daftar.pesanan.selesai');
+Route::get('/tukang/daftar/pesanan/selesai/{id}/detail', 'TerimaPesananController@showDetailPesananSelesai')->name('daftar.pesanan.selesai.detail');
 
 //pembayaran
 Route::get('/tukang/biaya', 'TerimaPesananController@showTambahPembayaran')->name('biaya');

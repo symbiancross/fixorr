@@ -114,4 +114,64 @@ class TerimaPesananController extends Controller
 
         return redirect()->route('biaya');
     }
+
+    public function showDaftarPesananSelesai()
+    {
+        $pesanans = DB::table('pesans', 'users')
+            ->select(
+                'pesans.pesan_id',
+                'pesans.user_id',
+                'pesans.tukang_id',
+                'pesans.isComplete',
+                'pesans.keahlian_id',
+                'pesans.created_at',
+                'users.nama'
+            )
+            ->join(
+                'users',
+                'users.user_id','=','pesans.user_id'
+            )
+            ->where('tukang_id', '=', Auth::user()->tukang_id)
+            ->where('isComplete', '=', 3)
+            ->get();
+            //dd($pesanans);
+
+        return view('pesantukang.daftar-pesanan-selesai-tukang')->with('pesanans', $pesanans);
+    }
+
+    public function showDetailPesananSelesai($id)
+    {
+        $pesanan = Pesan::findOrFail($id);
+        $detail_pesanan = 0;
+        $total = 0;
+        $tambahans = 0;
+        
+            $total = $pesanan->total;
+            $tambahans = Pekerjaan::where('pesan_id', '=', $id)->get();
+            if(count($tambahans) > 0)
+            {
+                foreach ($tambahans as $tambahan) {
+                    $total = $total + $tambahan->harga;
+                }
+            }
+            $detail_pesanan = DB::table('pesans')
+            ->select(
+                'pesans.pesan_id',
+                'users.nama',
+                'keahlians.nama_keahlian',
+                'keahlians.biaya'
+            )
+            ->join(
+                'users',
+                'users.user_id','=','pesans.user_id'
+            )->join(
+                'keahlians',
+                'keahlians.keahlian_id','=','pesans.keahlian_id'
+            )
+            ->where('pesans.pesan_id', '=', $id)
+            ->get();
+
+            return view('pesantukang.detail-pesanan-tukang-selesai')->with('detail_pesanan', $detail_pesanan)->with('pesanan', $pesanan)->with('total', $total)->with('tambahans', $tambahans);
+        
+    }
 }

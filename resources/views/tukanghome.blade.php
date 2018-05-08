@@ -16,8 +16,9 @@
 
                     You are logged in!
                     Hello {{Auth::guard('tukang')->user()->nama}}<br>
-                    <a href="{{ route('daftar.pesanan') }}">{{ __('Daftar Pesanan') }}</a><br>
-                    <a href="{{ route('biaya') }}">{{ __('Tambah Biaya') }}</a>
+                    <a href="{{ route('daftar.pesanan') }}">{{ __('Pesanan') }}</a><br>
+                    <a href="{{ route('biaya') }}">{{ __('Tambah Biaya') }}</a><br>
+                    <a href="{{ route('daftar.pesanan.selesai') }}">{{ __('Daftar Pesanan Selesai') }}</a><br>
                 </div>
             </div>
         </div>
