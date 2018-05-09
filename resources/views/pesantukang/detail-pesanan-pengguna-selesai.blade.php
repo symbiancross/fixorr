@@ -89,7 +89,7 @@
          <button type="submit" class="btn btn-success">
         <i class="fa fa-btn fa-trash"></i>Rate
         </button></center>
-        @endif
+    @endif
     </form>
 </div>
 <div class="panel-body">

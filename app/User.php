@@ -51,4 +51,8 @@ class User extends Authenticatable
     {
         return static::where('email', $email);
     }
+
+    public function rate(){
+        return $this->hasMany('App\Rate' ,'rate_id');
+    }
 }

@@ -13,7 +13,7 @@
 	<div class="col-12 col-md-6">
 		<form class="form-horizontal" method="POST" action="{{ route('kontak.submit') }}">
 			{{ csrf_field() }} 
-			<div class="form-group">
+		<div class="form-group">
 			<label for="Name">Name: </label>
 			<input type="text" class="form-control" id="name" placeholder="Your name" name="name" required>
 		</div>

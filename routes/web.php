@@ -68,15 +68,8 @@ Route::get('/login-choose', function () {
     return view('noauth.loginsebagai');
 })->name('log.as');
 
-Route::get('/testimoni', function () {
-    return view('noauth.testimoni');
-})->name('testi');
-
-
-
-
-
-
+Route::get('/testimoni', 'TestimoniController@showTestimoni')->name('testi');
+Route::get('/testimoni/urutkan', 'TestimoniController@urutkan')->name('urutkan');
 
 //tukang
 Route::group(['middleware' => ['tukang']], function () {
