@@ -29,7 +29,7 @@
                                                 @csrf
 
                                                 <button type="submit" class="btn btn-success">
-                                                    <i class="fa fa-btn fa-trash"></i>Detil Pesanan
+                                                    <i class="fa fa-btn fa-trash"></i>Detil Pelayanan
                                                 </button>
                                             </form>
                                         </td>

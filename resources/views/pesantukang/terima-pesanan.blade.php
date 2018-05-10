@@ -37,7 +37,9 @@
         <div class="panel-body">
             <table class="table table-striped task-table">
                 <thead>
-                    <th>Pesanan</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Nomer Telepon</th>
                     <th>&nbsp;</th>
                 </thead>
                 <tbody>
@@ -45,9 +47,9 @@
                         @if ($pesan->keahlian_id == Auth::guard('tukang')->user()->keahlian_id && $pesan->isComplete == 0)
                             <tr>
                                 <td class="table-text"><div>{{ $pesan->user->nama }}</div></td>
-                                <td class="table-text"><div>{{ $pesan->keahlian_id }}</div></td>
-
-                                <!-- Task Delete Button -->
+                                <td class="table-text"><div>{{ $pesan->user->alamat }}</div></td>
+                                <td class="table-text"><div>{{ $pesan->user->no_telp }}</div></td>
+                                
                                 <td>
                                     <form action="{{ route('status', $pesan->pesan_id) }}" method="POST">
                                         {{ csrf_field() }}

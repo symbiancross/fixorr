@@ -29,19 +29,22 @@ class UserController extends Controller
             'email' => 'required', Rule::unique('users')->ignore($user->id, 'user_id'),
             'telephone' => 'required|string|min:6',
             'password' => 'required|string|min:6|confirmed',
-            'foto' => 'required|image|mimes:jpeg,png,jpg|max:500|dimensions:min_width=100,min_height=100,max_width=200,max_height=200',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:500|dimensions:min_width=100,min_height=100,max_width=200,max_height=200',
         ]);
 
-        $file = $request->file('foto');
-        $fileName = $file->getClientOriginalName();
-        $request->file('foto')->move("image/", $fileName);
-
+        if(!$request->foto==NULL)
+        {
+            $file = $request->file('foto');
+            $fileName = $file->getClientOriginalName();
+            $request->file('foto')->move("image/", $fileName);
+            $user->foto = $fileName;
+        }
         $user->nama = request('name');
         $user->alamat = request('alamat');
         $user->email = request('email');
         $user->no_telp = request('telephone');
         $user->password = bcrypt(request('password'));
-        $user->foto = $fileName;
+        
         $user->save();
 
         return redirect('home');
