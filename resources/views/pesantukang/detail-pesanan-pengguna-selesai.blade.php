@@ -3,7 +3,7 @@
 @section('content')
 
 <center>
-    <center><img src="{{ asset('image/'.$detail_pesanan[0]->foto)  }}" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
+    <center><img src="{{ asset('image/'.$detail_pesanan[0]->foto)  }}" id="gambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
     {{ $detail_pesanan[0]->nama }}<br>
     {{ $detail_pesanan[0]->no_telp }}<br>
                 
@@ -22,46 +22,26 @@
     @if(count($rate)>0)
 
         @if($rate[0]->foto_testimoni==NULL)
-            <center><img src="http://placehold.it/100x100" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
+            <center><img src="http://placehold.it/100x100" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center> 
         @else
             <center><img src="{{ asset('image/'.$rate[0]->foto_testimoni)  }}" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
         @endif
         
-        <input type="file" id="inputgambar" name="foto" class="form-control">
-        @if ($errors->has('foto'))
-            <span class="help-block">
-                <strong>{{ $errors->first('foto') }}</strong>
-            </span>
-        @endif
-        
-        <span class="rating">
-            <input id="rating5" type="radio" name="rating" value="5" @if(isset($rate) && $rate[0]->rate_tukang=="5") checked @endif>
-            <label for="rating5">5</label>
-            <input id="rating4" type="radio" name="rating" value="4" @if(isset($rate) && $rate[0]->rate_tukang=="4") checked @endif>
-            <label for="rating4">4</label>
-            <input id="rating3" type="radio" name="rating" value="3" @if(isset($rate) && $rate[0]->rate_tukang=="3") checked @endif>
-            <label for="rating3">3</label>
-            <input id="rating2" type="radio" name="rating" value="2" @if(isset($rate) && $rate[0]->rate_tukang=="2") checked @endif>
-            <label for="rating2">2</label>
-            <input id="rating1" type="radio" name="rating" value="1" @if(isset($rate) && $rate[0]->rate_tukang=="1") checked @endif>
-            <label for="rating1">1</label>
-        </span><br>
         <center>
+            @for ($i = 0; $i < $rate[0]->rate_tukang; $i++)
+            <img src="{{ asset('images/star-on-big.png') }}">
+            @endfor
+            @for ($i = 0; $i < 5-$rate[0]->rate_tukang; $i++)
+            <img src="{{ asset('images/star-off-big.png') }}">
+            @endfor</center> 
+        <br>
+        
         @if (!$rate[0]->testimoni==NULL)
-            <textarea id="testimoni" name="testimoni" class="pb-cmnt-textarea" placeholder="Tuliskan testimoni anda disini!">{{ $rate[0]->testimoni }}</textarea>
-        @else
-            <textarea id="testimoni" name="testimoni" class="pb-cmnt-textarea" placeholder="Tuliskan testimoni anda disini!"></textarea>
+            <center>{{ $rate[0]->testimoni }}</center>
         @endif   
-        <input type="hidden" id="pesan_id" name="pesan_id" value="{{ $detail_pesanan[0]->pesan_id }}">
-        <input type="hidden" id="rate_id" name="rate_id" value="{{ $rate[0]->rate_id }}">
-        <center> 
-            <button type="submit" class="btn btn-success">
-                <i class="fa fa-btn fa-trash"></i>Update Rating
-            </button>
-        </center>
-            
-        @else
-        <center><img src="{{ asset('image/'.$rate->foto_testimoni)  }}" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
+           
+    @else
+        <center><img src="http://placehold.it/100x100" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
                 
         <input type="file" id="inputgambar" name="foto" class="form-control">
         @if ($errors->has('foto'))
@@ -75,9 +55,9 @@
             <label for="rating5">5</label>
             <input id="rating4" type="radio" name="rating" value="4">
             <label for="rating4">4</label>
-            <input id="rating3" type="radio" name="rating" value="3">
+            <input id="rating3" type="radio" name="rating" value="3" checked>
             <label for="rating3">3</label>
-            <input id="rating2" type="radio" name="rating" value="2" checked>
+            <input id="rating2" type="radio" name="rating" value="2">
             <label for="rating2">2</label>
             <input id="rating1" type="radio" name="rating" value="1">
             <label for="rating1">1</label>
@@ -85,7 +65,7 @@
         <center>
         <textarea id="testimoni" name="testimoni" placeholder="Tuliskan komentar anda disini!" class="pb-cmnt-textarea"></textarea>
         
-        <input type="hidden" id="pesan_id" name="pesan_id" value="{{ $detail_pesanan[0]->pesan_id }}">
+        <input type="hidden" id="pesan_id" name="pesan_id" value="{{ $detail_pesanan[0]->pesan_id }}"><br>
          <button type="submit" class="btn btn-success">
         <i class="fa fa-btn fa-trash"></i>Rate
         </button></center>

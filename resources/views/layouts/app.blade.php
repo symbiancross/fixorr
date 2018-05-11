@@ -43,7 +43,12 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                        @if(Auth::guard('web')->check())
+                        <li><a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a></li>
+                        @endif
+                        @if(Auth::guard('tukang')->check())
+                        <li><a class="nav-link" href="{{ route('tukang.home') }}">{{ __('Home') }}</a></li>
+                        @endif
                         <li><a class="nav-link" href="{{ route('faq') }}">{{ __('FAQ') }}</a></li>
                         <li><a class="nav-link" href="{{ route('testi') }}">{{ __('Testimoni') }}</a></li>
                         <li><a class="nav-link" href="{{ route('kontak') }}">{{ __('Kontak Kami') }}</a></li>

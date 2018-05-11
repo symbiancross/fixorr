@@ -89,6 +89,6 @@
         </div>
 </div>
 @else
-belum dapat menambahkan kekurangan
+<center>belum dapat menambahkan kekurangan</center>
 @endif
 @endsection

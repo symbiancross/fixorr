@@ -16,6 +16,7 @@
 
                     You are logged in!<br>
                     <a href="{{ route('user.edit') }}">{{ __('Edit profil pengguna') }}</a><br>
+                    <a href="{{ route('welcome') }}">{{ __('Pesan Tukang') }}</a><br>
                     <a href="{{ route('list.pesanan.aktif') }}">{{ __('Daftar Pesanan Aktif') }}</a><br>
                     <a href="{{ route('list.pesanan.selesai') }}">{{ __('Riwayat Pemesanan') }}</a>
                 </div>

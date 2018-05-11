@@ -35,13 +35,39 @@
                             </div>
                         </div>
 
+                        <!-- Trigger the modal with a button -->
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Pesan') }}
-                                </button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal-{{ $keahlian->keahlian_id }}"> Pesan </button>
 
                             </div>
+                        </div>
+                        
+
+                        <!-- Modal -->
+                        <div id="myModal-{{ $keahlian->keahlian_id }}" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              
+                              <div class="modal-body">
+                              
+                                <div class="alert alert-success" role="alert">
+                                
+                                    <p>Silahkan menunggu, tukang kami akan menerima pesanan anda</p>
+                                
+                                </div>
+                               
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                
+                                <button type="submit" class="btn btn-success" onclick="$('#user-form-{{ $keahlian->keahlian_id }}').submit()">Ok</button>
+                              </div>
+                            </div>
+
+                          </div>
                         </div>
                     </form>
                 </div>

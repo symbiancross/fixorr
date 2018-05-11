@@ -13,6 +13,10 @@
                     Pesan Tukang Dengan Mudah
                 </div>
 
+                <div class="subtitle2 m-b-md2">
+                    Tukang akan mencari anda
+                </div>
+
                 <div class="subtitle2 m-b-md">
                     Mulai pesan tukang anda
                 </div>

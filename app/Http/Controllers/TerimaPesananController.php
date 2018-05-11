@@ -10,6 +10,7 @@ use App\Tukang;
 use App\Pesan;
 use App\User;
 use App\Pekerjaan;
+use App\Rate;
 
 class TerimaPesananController extends Controller
 {
@@ -20,7 +21,7 @@ class TerimaPesananController extends Controller
 
     public function showDaftarPesanan()
     {
-        $pesans = Pesan::with('user')->get();
+        $pesans = Pesan::with('user')->orderBy('created_at', 'desc')->paginate(10);
 
         $pesanan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->whereIn('isComplete', [1, 2])->get();
 
@@ -56,6 +57,17 @@ class TerimaPesananController extends Controller
         else
         {
             $pesan->isComplete = 3;
+            $pekerjaans = Pekerjaan::where('pesan_id', '=', $id)->get();
+            if(count($pekerjaans)>0)
+            {
+                $total = $pesan->total;
+                foreach ($pekerjaans as $pekerjaan)
+                {
+                    $total = $total+$pekerjaan->harga;
+                }
+                $pesan->total = $total;
+            }
+
             $pesan->save();
             return redirect('tukang');
         }   
@@ -133,7 +145,8 @@ class TerimaPesananController extends Controller
             )
             ->where('tukang_id', '=', Auth::user()->tukang_id)
             ->where('isComplete', '=', 3)
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
             //dd($pesanans);
 
         return view('pesantukang.daftar-pesanan-selesai-tukang')->with('pesanans', $pesanans);
@@ -172,7 +185,9 @@ class TerimaPesananController extends Controller
             ->where('pesans.pesan_id', '=', $id)
             ->get();
 
-            return view('pesantukang.detail-pesanan-tukang-selesai')->with('detail_pesanan', $detail_pesanan)->with('pesanan', $pesanan)->with('total', $total)->with('tambahans', $tambahans);
+            $rate = Rate::where('pesan_id', '=', $id)->get();
+
+            return view('pesantukang.detail-pesanan-tukang-selesai')->with('detail_pesanan', $detail_pesanan)->with('pesanan', $pesanan)->with('total', $total)->with('tambahans', $tambahans)->with('rate', $rate);
         
     }
 }

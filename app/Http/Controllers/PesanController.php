@@ -63,9 +63,10 @@ class PesanController extends Controller
             )
             ->where('user_id', '=', Auth::user()->user_id)
             ->whereIn('isComplete', [0, 1, 2])
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-            $pesanans = $pesanans->sortBy('pesan_id');
+            
             //dd($pesanans);
 
         return view('pesantukang.daftar-pesanan-aktif')->with('pesanans', $pesanans);
@@ -135,7 +136,8 @@ class PesanController extends Controller
             )
             ->where('user_id', '=', Auth::user()->user_id)
             ->where('isComplete', '=', 3)
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
             //dd($pesanans);
 
         return view('pesantukang.daftar-pesanan-selesai')->with('pesanans', $pesanans);
@@ -186,50 +188,27 @@ class PesanController extends Controller
     {
         $chk_rate = Rate::where('pesan_id', '=', $request->pesan_id)->get();
         
-        if(count($chk_rate)>0)
+        $rate = new Rate;
+        $rate->user_id = Auth::user()->user_id;
+        $rate->tukang_id = $id;
+        $rate->pesan_id = $request->pesan_id;
+        if($request->rating==NULL)
         {
-            $rate = Rate::findOrFail($request->rate_id);
-            if($request->rating==NULL)
-            {
-                $request->rating = 0;
-            }
-
-            if(!$request->foto==NULL)
-            {
-                $file = $request->file('foto');
-                $fileName = $file->getClientOriginalName();
-                $request->file('foto')->move("image/", $fileName);
-                $rate->foto_testimoni = $fileName;
-            }
-
-            $rate->testimoni = $request->testimoni;
-            $rate->rate_tukang = $request->rating;
-            $rate->save();
-
+            $request->rating = 0;
         }
-        else
-        {
-            $rate = new Rate;
-            $rate->user_id = Auth::user()->user_id;
-            $rate->tukang_id = $id;
-            $rate->pesan_id = $request->pesan_id;
-            if($request->rating==NULL)
-            {
-                $request->rating = 0;
-            }
 
-            if(!$request->foto==NULL)
-            {
-                $file = $request->file('foto');
-                $fileName = $file->getClientOriginalName();
-                $request->file('foto')->move("image/", $fileName);
-                $rate->foto_testimoni = $fileName;
-            }
+        if(!$request->foto==NULL)
+        {
+            $file = $request->file('foto');
+            $fileName = $file->getClientOriginalName();
+             $request->file('foto')->move("image/", $fileName);
+             $rate->foto_testimoni = $fileName;
+        }
             
-            $rate->testimoni = $request->testimoni;
-            $rate->rate_tukang = $request->rating;
-            $rate->save();
-        }
+        $rate->testimoni = $request->testimoni;
+        $rate->rate_tukang = $request->rating;
+        $rate->save();
+        
         return redirect('/home');
     }
 }

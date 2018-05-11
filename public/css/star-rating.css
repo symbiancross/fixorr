@@ -1,6 +1,8 @@
 .wrapper {
                 padding: 50px;
                 margin: 100px auto;
+                margin-top: 0px;
+                margin-bottom: 10px;
                 width: 400px;
                 min-height: 200px;
                 border-radius: 5px;
