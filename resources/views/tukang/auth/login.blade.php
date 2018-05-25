@@ -4,9 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login Tukang') }}</div>
-                @if (session('success'))
+            @if (session('success'))
                     <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         {!! session('success') !!}
@@ -27,6 +25,9 @@
                         {!! session('status') !!}
                     </div>    
                 @endif
+            <div class="card">
+                <div class="card-header">{{ __('Login Tukang') }}</div>
+                
                 <div class="card-body">
                     <form method="POST" action="{{ route('tukang.login.submit') }}">
                         @csrf

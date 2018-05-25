@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 use Illuminate\Http\Request;
 use Auth;
+use GeneaLabs\LaravelMaps\Facades\Map;
 
 class RegisterController extends Controller
 {
@@ -41,6 +42,21 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showRegistrationForm()
+    {
+        $config = array();
+        $config['center'] = 'Wisma tengger';
+        $config['map_height'] = '0px';
+        $config['places'] = TRUE;
+        $config['placesAutocompleteInputID'] = 'alamat';
+        $config['placesAutocompleteBoundsMap'] = TRUE; // set results biased towards the maps viewport
+        $config['placesAutocompleteOnChange'] = 'createMarker_map({ map: map, position:event.latLng });';
+        Map::initialize($config);
+
+        $map = Map::create_map();
+        return view('auth.register')->with('map', $map);
     }
 
     /**
@@ -82,6 +98,6 @@ class RegisterController extends Controller
     {
         $this->guard()->logout();
      
-        return redirect('/login')->with('success', 'Please verify your email');
+        return redirect('/login')->with('success', 'Tolong verifikasi email anda');
     }
 }

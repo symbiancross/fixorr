@@ -11,8 +11,8 @@
                     <center><img src="{{ asset('image/'.$detail_user->foto)  }}" id="showgambar" style="max-width:200px;max-height:200px;" class="form-control"></center>
                 @endif
                 {{ $detail_user->nama }}<br>
-                {{ $detail_user->alamat }}<br>
-                {{ $detail_user->no_telp }}
+                {{ $pesanan[0]->alamat }}<br>
+                {{ $detail_user->no_telp }}<br>
                 @if ($pesanan[0]->isComplete == 1)
                     <form action="{{ route('status', $pesanan[0]->pesan_id) }}" method="POST">
                             {{ csrf_field() }}
@@ -28,6 +28,11 @@
                             <i class="fa fa-btn fa-trash"></i>Total
                         </button>
                     </form>
+                @endif
+                <br>
+                @if(isset($map))
+                    {!! $map['js'] !!}
+                    {!! $map['html'] !!}
                 @endif
             </center>
         @endif
@@ -47,7 +52,7 @@
                         @if ($pesan->keahlian_id == Auth::guard('tukang')->user()->keahlian_id && $pesan->isComplete == 0)
                             <tr>
                                 <td class="table-text"><div>{{ $pesan->user->nama }}</div></td>
-                                <td class="table-text"><div>{{ $pesan->user->alamat }}</div></td>
+                                <td class="table-text"><div>{{ $pesan->alamat }}</div></td>
                                 <td class="table-text"><div>{{ $pesan->user->no_telp }}</div></td>
                                 
                                 <td>

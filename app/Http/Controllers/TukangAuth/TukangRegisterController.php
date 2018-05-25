@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Http\Request;
 use Auth;
+use GeneaLabs\LaravelMaps\Facades\Map;
 
 class TukangRegisterController extends Controller
 {
@@ -32,7 +33,18 @@ class TukangRegisterController extends Controller
     {
         $keahlians = Keahlian::all();
 
-        return view('tukang.auth.register')->with('keahlians', $keahlians);
+        $config = array();
+        $config['center'] = 'Wisma tengger';
+        $config['map_height'] = '0px';
+        $config['places'] = TRUE;
+        $config['placesAutocompleteInputID'] = 'alamat';
+        $config['placesAutocompleteBoundsMap'] = TRUE; // set results biased towards the maps viewport
+        $config['placesAutocompleteOnChange'] = 'createMarker_map({ map: map, position:event.latLng });';
+        Map::initialize($config);
+
+        $map = Map::create_map();
+
+        return view('tukang.auth.register')->with('keahlians', $keahlians)->with('map', $map);
     }
 
     /**
@@ -140,7 +152,7 @@ class TukangRegisterController extends Controller
     {
         $this->guard()->logout();
      
-        return redirect('/tukang/login')->with('success', 'Please verify your email');
+        return redirect('/tukang/login')->with('success', 'Silahkan cek email anda');
     }
 
     protected function guard()

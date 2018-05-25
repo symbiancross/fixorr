@@ -28,7 +28,7 @@
 
                         <div class="form-group row">
                             <label for="alamat" class="col-md-4 col-form-label text-md-right">{{ __('Alamat') }}</label>
-
+                            
                             <div class="col-md-6">
                                 <input id="alamat" type="text" class="form-control{{ $errors->has('alamat') ? ' is-invalid' : '' }}" name="alamat" value="{{ $user->alamat }}" required autofocus>
 
@@ -38,6 +38,8 @@
                                     </span>
                                 @endif
                             </div>
+                            {!! $map['js'] !!}
+                            {!! $map['html'] !!}
                         </div>
 
                         <div class="form-group row">

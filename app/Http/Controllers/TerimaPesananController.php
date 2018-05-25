@@ -11,6 +11,7 @@ use App\Pesan;
 use App\User;
 use App\Pekerjaan;
 use App\Rate;
+use GeneaLabs\LaravelMaps\Facades\Map;
 
 class TerimaPesananController extends Controller
 {
@@ -33,7 +34,28 @@ class TerimaPesananController extends Controller
         {
             $cek_pesanan = 1;
             $detail_user = User::findOrFail($pesanan[0]->user_id);
+
+            $config = array();
+            $config['center'] = $pesanan[0]->alamat;
+            $config['map_height'] = '300px';
+            $config['map_width'] = '300px';
+            $config['places'] = TRUE;
+            $config['placesAutocompleteInputID'] = 'alamat';
+            $config['placesAutocompleteBoundsMap'] = TRUE; // set results biased towards the maps viewport
+            $config['placesAutocompleteOnChange'] = 'createMarker_map({ map: map, position:event.latLng });';
+            Map::initialize($config);
+
+            $marker = array();
+            $marker['position'] = $pesanan[0]->alamat;
+            Map::add_marker($marker);
+
+            $map = Map::create_map();
+
+            return view('pesantukang.terima-pesanan')->with('pesans', $pesans)->with('cek_pesanan', $cek_pesanan)->with('detail_user', $detail_user)->with('pesanan', $pesanan)->with('map', $map);
         }
+
+        
+
 
         return view('pesantukang.terima-pesanan')->with('pesans', $pesans)->with('cek_pesanan', $cek_pesanan)->with('detail_user', $detail_user)->with('pesanan', $pesanan);
     }
@@ -41,6 +63,7 @@ class TerimaPesananController extends Controller
     public function status($id)
     {
         $pesan = Pesan::findOrFail($id);
+        
         if($pesan->isComplete==0)
         {
             $pesan->tukang_id = Auth::user()->tukang_id;

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -16,7 +17,9 @@
 
                             <div class="col-md-6">
                                 <input id="alamat" type="text" class="form-control{{ $errors->has('alamat') ? ' is-invalid' : '' }}" name="alamat" value="{{ $user->alamat }}" required autofocus>
-
+                                    {!! $map['js'] !!}
+                                    {!! $map['html'] !!}
+                                
                                 @if ($errors->has('alamat'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('alamat') }}</strong>
@@ -75,4 +78,7 @@
         </div>
     </div>
 </div>
+
+
+
 @endsection

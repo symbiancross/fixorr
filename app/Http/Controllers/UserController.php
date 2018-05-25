@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Validation\Rule;
 use Auth;
+use GeneaLabs\LaravelMaps\Facades\Map;
 
 class UserController extends Controller
 {
@@ -17,8 +18,18 @@ class UserController extends Controller
     public function showEditUserForm()
     {
         $user = Auth::user();
+        $config = array();
+        $config['center'] = 'Wisma tengger';
+        $config['map_height'] = '0px';
+        $config['places'] = TRUE;
+        $config['placesAutocompleteInputID'] = 'alamat';
+        $config['placesAutocompleteBoundsMap'] = TRUE; // set results biased towards the maps viewport
+        $config['placesAutocompleteOnChange'] = 'createMarker_map({ map: map, position:event.latLng });';
+        Map::initialize($config);
+
+        $map = Map::create_map();
         
-        return view('auth.edit-user')->with('user', $user);
+        return view('auth.edit-user')->with('user', $user)->with('map', $map);;
     }
 
     public function update(Request $request, User $user)
@@ -47,6 +58,6 @@ class UserController extends Controller
         
         $user->save();
 
-        return redirect('home');
+        return redirect('home')->with('success', 'Profil anda berhasil dirubah');
     }
 }

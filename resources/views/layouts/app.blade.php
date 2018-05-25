@@ -13,7 +13,7 @@
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
-    
+     
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -23,6 +23,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/star-rating.css') }}" rel="stylesheet">
+    
 </head>
 <body>
     <div id="app">
@@ -108,5 +109,7 @@
 
     <script src="{{ asset('js/previewphoto.js') }}" defer></script>
     <script src="{{ asset('js/hideorshownewkeahlianform.js') }}" defer></script>
+  
+
 </body>
 </html>

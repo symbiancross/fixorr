@@ -37,6 +37,8 @@
                                     </span>
                                 @endif
                             </div>
+                            {!! $map['js'] !!}
+                            {!! $map['html'] !!}
                         </div>
 
                         <div class="form-group row">

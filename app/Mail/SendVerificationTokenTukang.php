@@ -30,7 +30,6 @@ class SendVerificationTokenTukang extends Mailable
      */
     public function build()
     {
-        return $this->subject('Please verify your email')
-                ->view('auth.email.verification-tukang');
+        return $this->subject('Terimakasih Sudah mendaftar di Fixorr, tim kami akan segera menghubungi anda');
     }
 }

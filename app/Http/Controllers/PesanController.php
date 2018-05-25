@@ -10,6 +10,7 @@ use App\Keahlian;
 use App\Pesan;
 use App\Pekerjaan;
 use App\Rate;
+use GeneaLabs\LaravelMaps\Facades\Map;
 
 
 class PesanController extends Controller
@@ -23,12 +24,23 @@ class PesanController extends Controller
     {
         $user = Auth::user();
         $keahlian = Keahlian::find($id);
-        
-        return view('pesantukang.pesan')->with('user', $user)->with('keahlian', $keahlian);
+        $config = array();
+        $config['center'] = 'Wisma tengger';
+        $config['map_height'] = '0px';
+        $config['places'] = TRUE;
+        $config['placesAutocompleteInputID'] = 'alamat';
+        $config['placesAutocompleteBoundsMap'] = TRUE; // set results biased towards the maps viewport
+        $config['placesAutocompleteOnChange'] = 'createMarker_map({ map: map, position:event.latLng });';
+        Map::initialize($config);
+
+        $map = Map::create_map();
+
+        return view('pesantukang.pesan')->with('user', $user)->with('keahlian', $keahlian)->with('map', $map);
     }
 
     public function pesan(Request $request)
     {
+       
         $pesan = new Pesan;
         $pesan->user_id = Auth::user()->user_id;
         $pesan->total = $request->input('total');

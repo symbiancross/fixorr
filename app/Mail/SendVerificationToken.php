@@ -30,7 +30,7 @@ class SendVerificationToken extends Mailable
      */
     public function build()
     {
-        return $this->subject('Please verify your email')
+        return $this->subject('Tolong Verifikasi Email Anda')
                 ->view('auth.email.verification');
     }
 }

@@ -13,8 +13,7 @@
                     <div class="panel-body">
                         <table class="table table-striped task-table">
                             <thead>
-                                <th>Keahlian</th>
-                                <th>Nama</th>
+                                <th>Nama Pelanggan</th>
                                 <th>Tanggal Pemesanan</th>
                                 <th>&nbsp;</th>
                             </thead>
