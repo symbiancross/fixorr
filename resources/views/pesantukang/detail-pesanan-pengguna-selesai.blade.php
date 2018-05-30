@@ -9,7 +9,7 @@
                 
            
     
-    Total : {{ $total }}
+    Total : Rp Rp {{ number_format($total,2,',','.') }}
 </center> 
 
 <div class="wrapper">
@@ -81,7 +81,7 @@
         <tbody>
             <tr>
                 <td class="table-text"><div>{{ $detail_pesanan[0]->nama_keahlian }}</div></td>
-                <td class="table-text"><div>{{ $detail_pesanan[0]->biaya }}</div></td>
+                <td class="table-text"><div>Rp {{ number_format($detail_pesanan[0]->biaya,2,',','.') }}</div></td>
             </tr>
         </tbody>
         @if(count($tambahans)>0)
@@ -93,7 +93,7 @@
                 @foreach($tambahans as $tambahan)
                     <tr>
                         <td class="table-text"><div>{{ $tambahan->pekerjaan }}</div></td>
-                        <td class="table-text"><div>{{ $tambahan->harga }}</div></td>
+                        <td class="table-text"><div>Rp {{ number_format($tambahan->harga,2,',','.') }}</div></td>
                     </tr>
                 @endforeach
             </tbody>

@@ -24,7 +24,12 @@ class Pesan extends Model
     protected $primaryKey = 'pesan_id';
 
     protected $fillable = [
-        'user_id', 'tukang_id', 'isComplete', 'total', 'alamat',
+        'user_id', 'tukang_id', 'isComplete', 'total', 'alamat', 'deskripsi', 'foto',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at'
     ];
 
     

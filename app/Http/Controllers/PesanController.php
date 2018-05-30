@@ -40,11 +40,39 @@ class PesanController extends Controller
 
     public function pesan(Request $request)
     {
+
+        $this->validate($request, [
+            'deskripsi' => 'required',
+            
+            'photos' => 'required',
+
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        if($request->hasfile('photos'))
+        {
+
+            foreach($request->file('photos') as $file)
+
+            {
+
+                $name=$file->getClientOriginalName();
+
+                $file->move(public_path().'/files/', $name);  
+
+                $data[] = $name;  
+
+            }
+
+         }
        
         $pesan = new Pesan;
         $pesan->user_id = Auth::user()->user_id;
         $pesan->total = $request->input('total');
         $pesan->alamat = $request->input('alamat');
+        $pesan->keahlian_id = $request->input('keahlian');
+        $pesan->deskripsi = $request->input('deskripsi');
+        $pesan->foto = json_encode($data);
         $pesan->keahlian_id = $request->input('keahlian');
         $pesan->isComplete = 0;
 
@@ -74,14 +102,24 @@ class PesanController extends Controller
                 'keahlians.keahlian_id','=','pesans.keahlian_id'
             )
             ->where('user_id', '=', Auth::user()->user_id)
+            ->where('pesans.created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 2 DAY)'))
             ->whereIn('isComplete', [0, 1, 2])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
             
+        $count = 0;
+
+        foreach ($pesanans as $pesanan ) {
+            $expired=strtotime($pesanan->created_at);
+            $expired=strtotime("+2 day", $expired);
+            $expired=date('Y-m-d H:i:s', $expired);
+            $expireds[$count++]=$expired;
+        }
+            
             //dd($pesanans);
 
-        return view('pesantukang.daftar-pesanan-aktif')->with('pesanans', $pesanans);
+        return view('pesantukang.daftar-pesanan-aktif')->with('pesanans', $pesanans)->with('expireds', $expireds);
     }
 
     public function showDetailPesananAktif($id)
