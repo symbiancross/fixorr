@@ -15,7 +15,7 @@ class CheckTukang
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('web')->check())
+        if(Auth::guard('web')->check() || Auth::guard('admin')->check())
         {
             abort(403, 'Unauthorized action.');
         }

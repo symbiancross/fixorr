@@ -50,9 +50,20 @@ return [
             'driver' => 'session',
             'provider' => 'tukangs',
         ],
+        
         'tukang-api' => [
             'driver' => 'token',
             'provider' => 'tukangs',
+        ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+        
+        'admin-api' => [
+            'driver' => 'token',
+            'provider' => 'admins',
         ],
     ],
 
@@ -82,6 +93,11 @@ return [
         'tukangs' => [
             'driver' => 'eloquent',
             'model' => App\Tukang::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
         ],
 
         // 'users' => [
@@ -114,6 +130,12 @@ return [
 
         'tukangs' => [
             'provider' => 'tukangs',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 60,
         ],

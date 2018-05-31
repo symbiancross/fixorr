@@ -40,6 +40,29 @@ class PesanController extends Controller
 
     public function pesan(Request $request)
     {
+        $created_at=DB::table('pesans')
+                ->where('user_id', '=', Auth::user()->user_id)
+                ->latest()
+                ->first();
+        $latest=strtotime($created_at->created_at);
+        $latest=strtotime("+2 hours", $latest);
+        $now=strtotime(now());
+        
+        if($latest>$now)
+        {
+            return redirect('home')->with('tunggu', 'harap menunggu 2 jam untuk memesan kembali');
+        }
+
+        $cekkesamaan=DB::table('pesans')
+                ->where('user_id', '=', Auth::user()->user_id)
+                ->where('keahlian_id', '=', $request->keahlian)
+                ->where('pesans.created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 2 DAY)'))
+                ->whereIn('isComplete', [0, 1, 2])->get();
+        
+        if($cekkesamaan>0)
+        {
+            return redirect('home')->with('sama', 'maaf anda tidak bisa memesan tukang dengan keahlian yang sama, harap tunggu 2 hari atau sampai pesanan dengan keahlian yang sama selesai');
+        }
 
         $this->validate($request, [
             'deskripsi' => 'required',
@@ -83,6 +106,7 @@ class PesanController extends Controller
 
     public function showListPesananAktif()
     {
+        
         $pesanans = DB::table('pesans')
             ->select(
                 'pesans.pesan_id',
@@ -103,12 +127,35 @@ class PesanController extends Controller
             )
             ->where('user_id', '=', Auth::user()->user_id)
             ->where('pesans.created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 2 DAY)'))
-            ->whereIn('isComplete', [0, 1, 2])
+            ->whereIn('isComplete', [0])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
+        $pesanans2 = DB::table('pesans')
+            ->select(
+                'pesans.pesan_id',
+                'pesans.user_id',
+                'pesans.tukang_id',
+                'pesans.isComplete',
+                'pesans.keahlian_id',
+                'pesans.created_at',
+                'tukangs.nama',
+                'keahlians.nama_keahlian'
+            )
+            ->leftjoin(
+                'tukangs',
+                'tukangs.tukang_id','=','pesans.tukang_id'
+            )->join(
+                'keahlians',
+                'keahlians.keahlian_id','=','pesans.keahlian_id'
+            )
+            ->where('user_id', '=', Auth::user()->user_id)
+            ->whereIn('isComplete', [1,2])
+            ->orderBy('created_at', 'desc')
+            ->get();
             
         $count = 0;
+        $expireds= [];
 
         foreach ($pesanans as $pesanan ) {
             $expired=strtotime($pesanan->created_at);
@@ -119,7 +166,7 @@ class PesanController extends Controller
             
             //dd($pesanans);
 
-        return view('pesantukang.daftar-pesanan-aktif')->with('pesanans', $pesanans)->with('expireds', $expireds);
+        return view('pesantukang.daftar-pesanan-aktif')->with('pesanans', $pesanans)->with('expireds', $expireds)->with('pesanans2', $pesanans2);
     }
 
     public function showDetailPesananAktif($id)

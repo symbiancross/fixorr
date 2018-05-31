@@ -39,22 +39,29 @@
     @else
         
 
-        <div class="panel-body">
+        <div class="panel-body container">
             <table class="table table-striped task-table">
                 <thead>
                     <th>Nama</th>
                     <th>Alamat</th>
                     <th>Nomer Telepon</th>
+                    <th>Tanggal Pemesanan</th>
+                    <th>Expired Pemesanan</th>
                     <th>&nbsp;</th>
                 </thead>
                 <tbody>
+                    <?php
+                        $i = 0;
+                    ?>
                     @foreach ($pesans as $pesan)
-                        @if ($pesan->keahlian_id == Auth::guard('tukang')->user()->keahlian_id && $pesan->isComplete == 0)
+                        
                             <tr>
                                 <td class="table-text"><div>{{ $pesan->user->nama }}</div></td>
                                 <td class="table-text"><div>{{ $pesan->alamat }}</div></td>
                                 <td class="table-text"><div>{{ $pesan->user->no_telp }}</div></td>
+                                <td class="table-text"><div>{{ $pesan->created_at }}</div></td>
                                 
+                                <td class="table-text"><div>{{ $expireds[$i] }}</div></td>
                                 <td>
                                     <form action="{{ route('status', $pesan->pesan_id) }}" method="POST">
                                         {{ csrf_field() }}
@@ -65,7 +72,7 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endif
+                       <?php $i++;  ?>
                     @endforeach            
                 </tbody>
             </table>

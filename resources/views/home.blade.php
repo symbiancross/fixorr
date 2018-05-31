@@ -4,19 +4,30 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @if (session('success'))
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        {!! session('success') !!}
-                    </div>
-            @endif
+            
             <div class="card">
                 <div class="card-header">Dashboard Pengguna</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
+                    @if (session('success'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {!! session('success') !!}
+                    </div>
+                    @elseif (session('status'))
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             {{ session('status') }}
+                        </div>
+                    @elseif (session('tunggu'))
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {{ session('tunggu') }}
+                        </div>
+                    @elseif (session('sama'))
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {{ session('sama') }}
                         </div>
                     @endif
 

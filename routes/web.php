@@ -106,4 +106,10 @@ Route::group(['middleware' => ['tukang']], function () {
     //main page tukang
     Route::get('/tukang', 'TukangController@index')->name('tukang.home');
 
-}); 
+});
+
+    Route::get('/admin/login','AdminAuth\LoginController@showLoginForm')->name('admin.login');
+    Route::post('/admin/login','AdminAuth\LoginController@login')->name('admin.login.submit');
+    Route::post('/admin/logout','AdminAuth\LoginController@logout')->name('admin.logout'); 
+    Route::post('/admin/aktifkan/{id}', 'AdminController@aktifkanTukang')->name('admin.aktifkan');
+    Route::get('/admin', 'AdminController@index')->name('admin.home');

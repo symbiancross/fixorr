@@ -22,9 +22,13 @@ class TerimaPesananController extends Controller
 
     public function showDaftarPesanan()
     {
-        $pesans = Pesan::with('user')->orderBy('created_at', 'desc')->paginate(10);
+        $pesans = Pesan::with('user')->orderBy('created_at', 'desc')
+        ->where('keahlian_id', '=', Auth::user()->keahlian_id)
+        ->where('isComplete', '=', 0)
+        ->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 2 DAY)'))
+        ->paginate(10);
 
-        $pesanan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->whereIn('isComplete', [1, 2])->get();
+        $pesanan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->whereIn('isComplete', [1, 2])->get();        
 
         $cek_pesanan = 0;
         $detail_user = new User;
@@ -54,10 +58,94 @@ class TerimaPesananController extends Controller
             return view('pesantukang.terima-pesanan')->with('pesans', $pesans)->with('cek_pesanan', $cek_pesanan)->with('detail_user', $detail_user)->with('pesanan', $pesanan)->with('map', $map);
         }
 
-        
+        $rates = DB::table('rates')->where('tukang_id', '=', Auth::user()->tukang_id)->get();
+        $count = 0;
+        $total = 0;
+        if(count($rates)>0)
+        {
+            foreach ($rates as $rate) {
+                $total = $total+$rate->rate_tukang;
+                $count++;
+            }
+
+            $hasil = $total/$count;
+
+            
+            if ($hasil==4) 
+            {
+                $count=0;
+                foreach ($pesans as $pesan) {
+                    $time=strtotime($pesan->created_at);
+                    $timestart=strtotime("+15 minute", $time);
+                    $timenow=strtotime(now());
+                    
+                    if($timestart >= $timenow)
+                    {
+                        $pesans->forget($count);
+                    }
+                    $count++;
+                }
+            }
+            elseif ($hasil==3) 
+            {
+                $count=0;
+                foreach ($pesans as $pesan) {
+                    $time=strtotime($pesan->created_at);
+                    $timestart=strtotime("+20 minute", $time);
+                    $timenow=strtotime(now());
+                    
+                    if($timestart >= $timenow)
+                    {
+                        $pesans->forget($count);
+                    }
+                    $count++;
+                }
+            }
+            elseif ($hasil==2) 
+            {
+                $count=0;
+                foreach ($pesans as $pesan) {
+                    $time=strtotime($pesan->created_at);
+                    $timestart=strtotime("+25 minute", $time);
+                    $timenow=strtotime(now());
+                    
+                    if($timestart >= $timenow)
+                    {
+                        $pesans->forget($count);
+                    }
+                    $count++;
+                }
+            }
+            elseif ($hasil==1) 
+            {
+                $count=0;
+                foreach ($pesans as $pesan) {
+                    $time=strtotime($pesan->created_at);
+                    $timestart=strtotime("+30 minute", $time);
+                    $timenow=strtotime(now());
+                    
+                    if($timestart >= $timenow)
+                    {
+                        $pesans->forget($count);
+                    }
+                    $count++;
+                }
+            }
+
+        }
+
+        $count = 0;
+        $expireds = [];
+
+        foreach ($pesans as $pesan ) {
+            $expired=strtotime($pesan->created_at);
+            $expired=strtotime("+2 day", $expired);
+            $expired=date('Y-m-d H:i:s', $expired);
+            $expireds[$count++]=$expired;
+        }
 
 
-        return view('pesantukang.terima-pesanan')->with('pesans', $pesans)->with('cek_pesanan', $cek_pesanan)->with('detail_user', $detail_user)->with('pesanan', $pesanan);
+        return view('pesantukang.terima-pesanan')->with('pesans', $pesans)->with('cek_pesanan', $cek_pesanan)->with('detail_user', $detail_user)->with('pesanan', $pesanan)->with('expireds', $expireds);
     }
 
     public function status($id)

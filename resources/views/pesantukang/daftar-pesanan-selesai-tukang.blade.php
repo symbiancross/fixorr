@@ -3,7 +3,7 @@
 @section('content')
             <!-- Current Tasks -->
             @if (count($pesanans) > 0)
-                <div class="panel-body">
+                <div class="panel-body container">
                 <table class="table table-striped task-table">
                     <thead>
                         <th>Pesanan</th>

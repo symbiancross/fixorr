@@ -82,7 +82,7 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" href="{{ route('tukang.logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -92,7 +92,25 @@
                                         @csrf
                                     </form>
                                 </div>
-                            </li>    
+                            </li> 
+                        @elseif(Auth::guard('admin')->check())
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::guard('admin')->user()->email }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('admin.logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">﻿
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>      
                         @else
                             <li><a class="nav-link" href="{{ route('log.as') }}">{{ __('Masuk') }}</a></li>
                             <li><a class="nav-link" href="{{ route('reg.as') }}">{{ __('Daftar') }}</a></li>

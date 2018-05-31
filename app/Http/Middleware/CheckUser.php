@@ -15,7 +15,7 @@ class CheckUser
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('tukang')->check())
+        if(Auth::guard('tukang')->check() || Auth::guard('admin')->check())
         {
             abort(403, 'Unauthorized action.');
         }
