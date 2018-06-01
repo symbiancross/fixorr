@@ -40,7 +40,7 @@
                             Hasl Pencarian
                         </div>
 
-                        <div class="panel-body">
+                        <div class="panel-body container">
                             <table class="table table-striped task-table">
                                 
                                 <tbody>

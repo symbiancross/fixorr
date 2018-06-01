@@ -35,7 +35,7 @@
 @endif
 
 
-<div class="panel-body">
+<div class="panel-body container">
     <table class="table table-striped task-table">
         <thead>
             <th>Jenis Tukang</th>
@@ -56,7 +56,7 @@
                 @foreach($tambahans as $tambahan)
                     <tr>
                         <td class="table-text"><div>{{ $tambahan->pekerjaan }}</div></td>
-                        <td class="table-text"><div>Rp {{ number_format($tambahan->harga->biaya,2,',','.') }}</div></td>
+                        <td class="table-text"><div>Rp {{ number_format($tambahan->harga,2,',','.') }}</div></td>
                     </tr>
                 @endforeach
             </tbody>

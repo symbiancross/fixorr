@@ -23,6 +23,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/star-rating.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/image-hover.css') }}" rel="stylesheet">
     
 </head>
 <body>

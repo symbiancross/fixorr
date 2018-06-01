@@ -9,7 +9,7 @@
                 
            
     
-    Total : Rp Rp {{ number_format($total,2,',','.') }}
+    Total : Rp {{ number_format($total,2,',','.') }}
 </center> 
 
 <div class="wrapper">
@@ -72,7 +72,7 @@
     @endif
     </form>
 </div>
-<div class="panel-body">
+<div class="panel-body container">
     <table class="table table-striped task-table">
         <thead>
             <th>Jenis Tukang</th>

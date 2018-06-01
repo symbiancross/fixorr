@@ -10,7 +10,7 @@
                         <th>&nbsp;</th>
                     </thead>
 
-                    <div class="panel-body">
+                    <div class="panel-body container">
                         <table class="table table-striped task-table">
                             <thead>
                                 <th>Keahlian</th>
@@ -23,7 +23,7 @@
                                 <?php
                                     $i = 0;
                                 ?>
-                                
+                                @if (count($pesanans2) > 0)
                                 @foreach ($pesanans2 as $pesanan2)
                                 
                                     <tr>
@@ -44,6 +44,8 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                @endif
+                                @if (count($pesanans) > 0)
                                 @foreach ($pesanans as $pesanan)
                                 
                                     <tr>
@@ -66,7 +68,7 @@
                                     </tr>
                                     <?php $i++;  ?>
                                 @endforeach
-
+                                @endif
                             </tbody>
                         </table>
                     </div>

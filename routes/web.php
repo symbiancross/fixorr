@@ -39,6 +39,8 @@ Route::group( ['middleware' => 'user' ], function()
     //cari keahlian
     Route::get('/carikeahlian', 'KeahlianController@showSearchKeahlianForm')->name('cari.keahlian');
     Route::get('/carikeahlian/get', 'KeahlianController@cariKeahlian')->name('cari.keahlian.get');
+
+    Route::post('selesai/{id}', 'PesanController@selesai')->name('selesai');
 });
 
 
@@ -95,6 +97,7 @@ Route::group(['middleware' => ['tukang']], function () {
     //terima pesanan
     Route::get('/tukang/pesanan', 'TerimaPesananController@showDaftarPesanan')->name('daftar.pesanan');
     Route::post('/tukang/{id}/status', 'TerimaPesananController@status')->name('status');
+    Route::get('/tukang/daftar/pesanan/aktif/{id}/detail', 'TerimaPesananController@showDetailPesananAktif')->name('daftar.pesanan.aktif.detail');
     Route::get('/tukang/daftar/pesanan/selesai', 'TerimaPesananController@showDaftarPesananSelesai')->name('daftar.pesanan.selesai');
     Route::get('/tukang/daftar/pesanan/selesai/{id}/detail', 'TerimaPesananController@showDetailPesananSelesai')->name('daftar.pesanan.selesai.detail');
 

@@ -14,7 +14,17 @@
                 status: sudah sampai<br>
                 @endif
                 Total : {{ $total }}
-                <div class="panel-body">
+                
+                @if($pesanan->isComplete==2)
+                <form action="{{ route('selesai', $detail_pesanan[0]->pesan_id) }}" method="POST">
+                @csrf
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-btn fa-trash"></i>Selesai
+                    </button>
+                </form>
+                @endif<br>
+                <div class="panel-body container">
                         <table class="table table-striped task-table">
                             <thead>
                                 <th>Jenis Tukang</th>

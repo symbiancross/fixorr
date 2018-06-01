@@ -10,7 +10,7 @@
                         <th>&nbsp;</th>
                     </thead>
 
-                    <div class="panel-body">
+                    <div class="panel-body container">
                         <table class="table table-striped task-table">
                             <thead>
                                 <th>Nama Pelanggan</th>

@@ -28,7 +28,7 @@ class TerimaPesananController extends Controller
         ->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 2 DAY)'))
         ->paginate(10);
 
-        $pesanan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->whereIn('isComplete', [1, 2])->get();        
+        $pesanan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->whereIn('isComplete', [1, 2, 3])->get();        
 
         $cek_pesanan = 0;
         $detail_user = new User;
@@ -39,14 +39,14 @@ class TerimaPesananController extends Controller
             $cek_pesanan = 1;
             $detail_user = User::findOrFail($pesanan[0]->user_id);
 
+            $images=json_decode($pesanan[0]->foto, true);
+
             $config = array();
             $config['center'] = $pesanan[0]->alamat;
             $config['map_height'] = '300px';
             $config['map_width'] = '300px';
             $config['places'] = TRUE;
-            $config['placesAutocompleteInputID'] = 'alamat';
-            $config['placesAutocompleteBoundsMap'] = TRUE; // set results biased towards the maps viewport
-            $config['placesAutocompleteOnChange'] = 'createMarker_map({ map: map, position:event.latLng });';
+            
             Map::initialize($config);
 
             $marker = array();
@@ -55,7 +55,7 @@ class TerimaPesananController extends Controller
 
             $map = Map::create_map();
 
-            return view('pesantukang.terima-pesanan')->with('pesans', $pesans)->with('cek_pesanan', $cek_pesanan)->with('detail_user', $detail_user)->with('pesanan', $pesanan)->with('map', $map);
+            return view('pesantukang.terima-pesanan')->with('pesans', $pesans)->with('cek_pesanan', $cek_pesanan)->with('detail_user', $detail_user)->with('pesanan', $pesanan)->with('map', $map)->with('images', $images);
         }
 
         $rates = DB::table('rates')->where('tukang_id', '=', Auth::user()->tukang_id)->get();
@@ -167,7 +167,7 @@ class TerimaPesananController extends Controller
         }
         else
         {
-            $pesan->isComplete = 3;
+            $pesan->isComplete = 4;
             $pekerjaans = Pekerjaan::where('pesan_id', '=', $id)->get();
             if(count($pekerjaans)>0)
             {
@@ -186,25 +186,27 @@ class TerimaPesananController extends Controller
 
     public function showTambahPembayaran()
     {
-        $pesan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->where('isComplete', '=', 2)->get();
+        $pesan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->whereIn('isComplete', [2, 3])->get();
         $kekurangans = new Pekerjaan;
         $pesan_id = 0;
         $cek_pesanan = 0;
+        $isComplete = 0;
         if(count($pesan)==1)
         {
             $cek_pesanan = 1;            
             $pesan_id = $pesan[0]->pesan_id;
+            $isComplete = $pesan[0]->isComplete;
             
             $kekurangans = DB::table('pekerjaans')
             ->where('tukang_id', '=', Auth::user()->tukang_id)
             ->where('pesan_id', '=', $pesan_id)
             ->get();
             
-            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan)->with('pesan_id', $pesan_id);
+            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan)->with('pesan_id', $pesan_id)->with('isComplete', $isComplete);
         }
         else
         {
-            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan)->with('pesan_id', $pesan_id);
+            return view('pesantukang.tambah-biaya')->with('kekurangans', $kekurangans)->with('cek_pesanan', $cek_pesanan)->with('pesan_id', $pesan_id)->with('isComplete', $isComplete);
         }
         
     }
@@ -216,7 +218,7 @@ class TerimaPesananController extends Controller
             'harga' => 'required|numeric|between:0.001,999999999',
         ]);
 
-        $pesan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->where('isComplete', '=', 2)->get();
+        $pesan = DB::table('pesans')->where('tukang_id', '=', Auth::user()->tukang_id)->whereIn('isComplete', [2, 3])->get();
         $pesan_id = $pesan[0]->pesan_id;
 
         $pekerjaan =  new Pekerjaan;
@@ -255,7 +257,7 @@ class TerimaPesananController extends Controller
                 'users.user_id','=','pesans.user_id'
             )
             ->where('tukang_id', '=', Auth::user()->tukang_id)
-            ->where('isComplete', '=', 3)
+            ->where('isComplete', '=', 4)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
             //dd($pesanans);
@@ -272,6 +274,7 @@ class TerimaPesananController extends Controller
         
             $total = $pesanan->total;
             $tambahans = Pekerjaan::where('pesan_id', '=', $id)->get();
+            
             if(count($tambahans) > 0)
             {
                 foreach ($tambahans as $tambahan) {
@@ -300,5 +303,29 @@ class TerimaPesananController extends Controller
 
             return view('pesantukang.detail-pesanan-tukang-selesai')->with('detail_pesanan', $detail_pesanan)->with('pesanan', $pesanan)->with('total', $total)->with('tambahans', $tambahans)->with('rate', $rate);
         
+    }
+
+    public function showDetailPesananAktif($id)
+    {
+        $detail=Pesan::with('user')->find($id);
+
+        $images=json_decode($detail->foto, true);
+
+
+        $config = array();
+        $config['center'] = $detail->alamat;
+        $config['map_height'] = '300px';
+        $config['map_width'] = '300px';
+        $config['places'] = TRUE;
+       
+        Map::initialize($config);
+
+        $marker = array();
+        $marker['position'] = $detail->alamat;
+        Map::add_marker($marker);
+
+        $map = Map::create_map();
+        
+        return view('pesantukang.detail-pesanan-tukang-aktif')->with('detail', $detail)->with('map', $map)->with('images', $images);
     }
 }

@@ -57,9 +57,9 @@ class PesanController extends Controller
                 ->where('user_id', '=', Auth::user()->user_id)
                 ->where('keahlian_id', '=', $request->keahlian)
                 ->where('pesans.created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 2 DAY)'))
-                ->whereIn('isComplete', [0, 1, 2])->get();
+                ->whereIn('isComplete', [0, 1, 2, 3])->get();
         
-        if($cekkesamaan>0)
+        if(count($cekkesamaan)>0)
         {
             return redirect('home')->with('sama', 'maaf anda tidak bisa memesan tukang dengan keahlian yang sama, harap tunggu 2 hari atau sampai pesanan dengan keahlian yang sama selesai');
         }
@@ -150,7 +150,7 @@ class PesanController extends Controller
                 'keahlians.keahlian_id','=','pesans.keahlian_id'
             )
             ->where('user_id', '=', Auth::user()->user_id)
-            ->whereIn('isComplete', [1,2])
+            ->whereIn('isComplete', [1, 2, 3])
             ->orderBy('created_at', 'desc')
             ->get();
             
@@ -191,6 +191,7 @@ class PesanController extends Controller
             }
             $detail_pesanan = DB::table('pesans')
             ->select(
+                'pesans.pesan_id',
                 'tukangs.nama',
                 'tukangs.no_telp',
                 'tukangs.foto',
@@ -232,7 +233,7 @@ class PesanController extends Controller
                 'keahlians.keahlian_id','=','pesans.keahlian_id'
             )
             ->where('user_id', '=', Auth::user()->user_id)
-            ->where('isComplete', '=', 3)
+            ->where('isComplete', '=', 4)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
             //dd($pesanans);
@@ -307,5 +308,17 @@ class PesanController extends Controller
         $rate->save();
         
         return redirect('/home');
+    }
+
+    public function selesai($id)
+    {
+        $pesan = Pesan::findOrFail($id);
+        
+        if($pesan->isComplete==2)
+        {
+            $pesan->isComplete = 3;
+            $pesan->save();
+            return redirect()->route('list.pesanan.aktif.detail', $id);
+        }
     }
 }

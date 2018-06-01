@@ -4,7 +4,9 @@
 @if($cek_pesanan==1)
     <div class="container">
         <div class="col-sm-offset-2 col-sm-8">
+            @if(!$isComplete==3)
             <div class="panel panel-default">
+
                 <div class="panel-heading">
                     Kekurangan
                 </div>
@@ -40,6 +42,7 @@
                     </form>
                 </div>
             </div>
+            @endif
 
             <!-- Current Tasks -->
             @if (count($kekurangans) > 0)
@@ -48,7 +51,7 @@
                         Daftar Kekurangan
                     </div>
 
-                    <div class="panel-body">
+                    <div class="panel-body container">
                         <table class="table table-striped task-table">
                             <thead>
                                 <th>Kekurangan biaya</th>
@@ -59,8 +62,9 @@
                                 @foreach ($kekurangans as $kekurangan)
                                     <tr>
                                         <td class="table-text"><div>{{ $kekurangan->pekerjaan }}</div></td>
-                                        <td class="table-text"><div>{{ $kekurangan->harga }}</div></td>
+                                        <td class="table-text"><div>Rp {{ number_format($kekurangan->harga,2,',','.') }}</div></td>
                                         <!-- Task Delete Button -->
+                                        @if(!$isComplete==3)
                                         <td>
                                             <form action="{{ route('hapus.kekurangan', $kekurangan->pekerjaan_id) }}" method="POST">
                                                 @method('DELETE')
@@ -71,6 +75,7 @@
                                                 </button>
                                             </form>
                                         </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -79,13 +84,15 @@
                     </div>
                 </div>
             @endif
+            @if($isComplete==3)
             <form action="{{ route('status', $pesan_id) }}" method="POST">
-                                                @csrf
+            @csrf
 
-                                                <button type="submit" class="btn btn-success">
-                                                    <i class="fa fa-btn fa-trash"></i>Selesai
-                                                </button>
-                                            </form>
+            <button type="submit" class="btn btn-success">
+                <i class="fa fa-btn fa-trash"></i>Selesai
+            </button>
+            </form>
+            @endif
         </div>
 </div>
 @else
