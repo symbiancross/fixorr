@@ -52,7 +52,7 @@
                         <li><a class="nav-link" href="{{ route('tukang.home') }}">{{ __('Home') }}</a></li>
                         @endif
                         <li><a class="nav-link" href="{{ route('faq') }}">{{ __('FAQ') }}</a></li>
-                        <li><a class="nav-link" href="{{ route('testi') }}">{{ __('Testimoni') }}</a></li>
+                        <li><a class="nav-link" href="{{ route('testi') }}">{{ __('Daftar Rating Tukang') }}</a></li>
                         <li><a class="nav-link" href="{{ route('kontak') }}">{{ __('Kontak Kami') }}</a></li>
 
                         <!-- Authentication Links -->

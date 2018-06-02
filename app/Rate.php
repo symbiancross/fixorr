@@ -16,4 +16,9 @@ class Rate extends Model
 	{
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    public function tukang()
+	{
+        return $this->belongsTo('App\Tukang', 'tukang_id');
+    }
 }
