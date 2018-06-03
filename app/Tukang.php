@@ -58,4 +58,9 @@ class Tukang extends Authenticatable
     public function rate(){
         return $this->hasMany('App\Rate' ,'rate_id');
     }
+
+    public function keahlian()
+    {
+        return $this->belongsTo('App\Keahlian', 'keahlian_id');
+    }
 }

@@ -15,5 +15,9 @@ class Keahlian extends Model
     public function pesan(){
         return $this->hasMany('App\Pesan' ,'pesan_id');
     }
+
+    public function tukang(){
+        return $this->hasMany('App\Tukang' ,'tukang_id');
+    }
 }
 

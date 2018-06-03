@@ -42,6 +42,7 @@
 	    @endfor
 	    <br>
         {{ $sortedtukang->tukang->nama }}<br>
+        {{ $sortedtukang->keahlian }}<br>
     	</div>
         </div>
         @endforeach

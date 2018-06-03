@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Rate;
+use App\Tukang;
 
 class TestimoniController extends Controller
 {
@@ -14,15 +15,17 @@ class TestimoniController extends Controller
         foreach ($tukangs as $tukang) {
             $total=0;
             $rates = Rate::select('rate_tukang')->where('tukang_id', $tukang->tukang_id)->get();
+            $keahlian = Tukang::where('tukang_id', $tukang->tukang_id)->first();
             foreach ($rates as $rate) {
                 $total=$total+$rate->rate_tukang;
             }
             $count=count($rates);
             $avg_rate=$total/$count;
             $tukang['average']=$avg_rate;
+            $tukang['keahlian']=$keahlian->keahlian->nama_keahlian;
         }
 
-        $sortedtukangs= $tukangs->sortByDesc('average');
+        $sortedtukangs=$tukangs->sortByDesc('average');
 
     	return view('noauth.testimoni')->with('sortedtukangs', $sortedtukangs);
     }
